@@ -11,12 +11,10 @@ public class ForohubApplication {
 
 		SpringApplication.run(ForohubApplication.class, args);
 
-		System.out.println("hola mundosdryhtrytr");
-		System.out.println("hola");
-
 	}
 
-
+// delete from flyway_schema_history where success = 0;  cuando no se detiene el proyecto al ahacer un migration
+	// http://localhost:8080/medico?size=10&page=0&sort=nombre
 
 
 }
