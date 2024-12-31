@@ -32,7 +32,7 @@ public class TopicoController {
         public void registraTopico(@RequestBody @Valid RegistrarTopicoDTO registrarTopicoDTO ){
 
             LocalDateTime fechaTopico = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-              Usuario  usuario = usuarioService.buscarUsuario(1L);
+              Usuario  usuario = usuarioService.buscarUsuario(3L);
 
             System.out.println(usuario.getClave());
            if(usuario.getClave().contains("12345678")){

@@ -1,5 +1,6 @@
 package com.aluracursos.forohub.domain.usuario;
 
+import com.aluracursos.forohub.domain.ValidacionException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,29 +26,18 @@ public class UsuarioService {
 
     public Usuario buscarUsuario(Long id) {
 
+      //  return usuarioRepository.findById(id)
+        //        .orElseThrow(() -> new ValidacionException("Usuario no encontrado con id: " + id));
         Optional<Usuario> usuario = usuarioRepository.findById(id);
-
-        if (usuario.isPresent()) {
-            Usuario usuarioEncontrado = usuario.get();
-            // Procesar el usuario encontrado
-            System.out.println("ENcontrado");
-
-
-            return usuarioEncontrado;
-
-        } else {
-            // Manejar el caso en que no se encuentra el usuario
-            System.out.println("hola");
+        if (!usuario.isPresent()) {
+            throw new ValidacionException("No existe usuario ");
         }
-        return null;
+            Usuario usuarioEncontrado = usuario.get();
+        return usuarioEncontrado;
+
     }
+
+
+
 }
-
-
-
-
-
-        //System.out.println(user.getMail());
-        //return user;
-
 
