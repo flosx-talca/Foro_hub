@@ -35,7 +35,7 @@ public class TopicoController {
               Usuario  usuario = usuarioService.buscarUsuario(1L);
 
             System.out.println(usuario.getClave());
-           if(usuario.getClave()=="12345678"){
+           if(usuario.getClave().contains("12345678")){
                System.out.println("Si");
 
            }
