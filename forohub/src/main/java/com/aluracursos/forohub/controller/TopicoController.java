@@ -1,6 +1,7 @@
 package com.aluracursos.forohub.controller;
 
 import com.aluracursos.forohub.domain.topico.RegistrarTopicoDTO;
+import com.aluracursos.forohub.domain.topico.Topico;
 import com.aluracursos.forohub.domain.topico.TopicoService;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioService;
@@ -30,18 +31,24 @@ public class TopicoController {
 
         @PostMapping
         public void registraTopico(@RequestBody @Valid RegistrarTopicoDTO registrarTopicoDTO ){
+            Usuario  usuario = usuarioService.buscarUsuario(2L);
+            var fecha = topicoService.generaFechaActual();
+            topicoService.generaObjTopico(registrarTopicoDTO,  usuario, fecha);
 
-            LocalDateTime fechaTopico = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-              Usuario  usuario = usuarioService.buscarUsuario(3L);
 
-            System.out.println(usuario.getClave());
-           if(usuario.getClave().contains("12345678")){
-               System.out.println("Si");
 
-           }
-           else{
-               System.out.println("no");
-           }
+
+
+
+
+
+//            System.out.println(usuario.getClave());
+//            if(usuario.getClave().contains("12345678")){
+//                System.out.println("Si");
+//            }
+//           else{
+//               System.out.println("no");
+//           }
 
 
 

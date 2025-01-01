@@ -31,4 +31,11 @@ public class Topico {
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
 
+    public Topico(RegistrarTopicoDTO datos, Usuario usuario, LocalDateTime fecha) {
+        this.titulo = datos.titulo();
+        this.mensaje = datos.mensaje();
+        this.fechaCreacion = fecha;
+        this.usuario = usuario;
+
+    }
 }

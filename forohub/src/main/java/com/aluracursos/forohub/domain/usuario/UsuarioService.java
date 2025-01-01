@@ -25,15 +25,20 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuario(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new ValidacionException("Usuario no encontrado"));
 
-      //  return usuarioRepository.findById(id)
+
+
+
+        //  return usuarioRepository.findById(id)
         //        .orElseThrow(() -> new ValidacionException("Usuario no encontrado con id: " + id));
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        /*Optional<Usuario> usuario = usuarioRepository.findById(id);
         if (!usuario.isPresent()) {
             throw new ValidacionException("No existe usuario ");
         }
             Usuario usuarioEncontrado = usuario.get();
-        return usuarioEncontrado;
+        return usuarioEncontrado;*/
+
 
     }
 
