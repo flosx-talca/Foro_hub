@@ -44,8 +44,8 @@ public class TopicoService {
 //               // .buildAndExpand(topico.getId())
 //                .buildAndExpand(String.valueOf(topico.getId()))
 //                .toUri();
-        URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
-       // URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(Collections.singletonMap("id", topico.getId())).toUri();
+        //URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
+        URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(Collections.singletonMap("id", topico.getId())).toUri();
          //URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand()
 
         return ResponseEntity.created(url).body(topicoSalida);
