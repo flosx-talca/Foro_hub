@@ -1,4 +1,4 @@
-package com.aluracursos.forohub.errores;
+package com.aluracursos.forohub.Infraestructura.errores;
 
 import org.springframework.validation.FieldError;
 

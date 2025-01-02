@@ -1,5 +1,6 @@
 package com.aluracursos.forohub.domain.topico;
-import com.aluracursos.forohub.domain.ValidacionException;
+import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
+import com.aluracursos.forohub.domain.topico.validaciones.ValidadorTopico;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
@@ -9,26 +10,36 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class TopicoService {
 
+//    @Autowired
+//    private List<ValidadorTopico> validadores;
+
     private final TopicoRepository topicoRepository;
     private final UsuarioRepository usuarioRepository;
     private final UriComponentsBuilder uriComponentsBuilder;
+    private List<ValidadorTopico> validadores;
 
 
      public TopicoService(TopicoRepository topicoRepository,
                           UsuarioRepository usuarioRepository,
-                          UriComponentsBuilder uriComponentsBuilder) {
+                          UriComponentsBuilder uriComponentsBuilder,
+                          List<ValidadorTopico> validadores) {
         this.topicoRepository = topicoRepository;
         this.usuarioRepository = usuarioRepository;
         this.uriComponentsBuilder = uriComponentsBuilder;
+        this.validadores = validadores;
     }
 
 
     public ResponseEntity<DevolverTopicoDTO> procesar(RegistrarTopicoDTO registrarTopicoDTO) {
         var fecha = generaFechaActual();
+
+       validadores.forEach(v -> v.validar(registrarTopicoDTO));
+
 
         Usuario  usuario = usuarioRepository.findById(registrarTopicoDTO.idUsuario())
                 .orElseThrow(() -> new ValidacionException("Usuario no encontrado"));
@@ -72,11 +83,14 @@ public class TopicoService {
     }
 
     //METODO GET POR ID
+
     public ResponseEntity<DevolverTopicoDTO> topicoPorId(Long id){
 
         Topico topico = topicoRepository.getReferenceById(id);
-        DevolverTopicoDTO topicoDTO = new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
-                topico.getMensaje(), topico.getNombreCurso(),topico.getFechaCreacion(),topico.getUsuario().getId());
+        var topicoDTO = generaDevolverTopico(topico);
+
+//        DevolverTopicoDTO topicoDTO = new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
+//                topico.getMensaje(), topico.getNombreCurso(),topico.getFechaCreacion(),topico.getUsuario().getId());
         return ResponseEntity.ok(topicoDTO);
 
     }

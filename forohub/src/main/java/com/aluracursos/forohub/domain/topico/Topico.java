@@ -33,8 +33,8 @@ public class Topico {
     private Usuario usuario;
 
     public Topico(RegistrarTopicoDTO datos, Usuario usuario, LocalDateTime fecha) {
-        this.titulo = datos.titulo();
-        this.mensaje = datos.mensaje();
+        this.titulo = datos.titulo().trim().replaceAll("\\s+", " ");
+        this.mensaje = datos.mensaje().trim().replaceAll("\\s+", " ");
         this.fechaCreacion = fecha;
         this.nombreCurso = datos.nombreCurso();
         this.usuario = usuario;
