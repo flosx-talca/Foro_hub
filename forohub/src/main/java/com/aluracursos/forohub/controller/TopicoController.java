@@ -1,15 +1,15 @@
 package com.aluracursos.forohub.controller;
 
+import com.aluracursos.forohub.domain.topico.DevolverTopicoDTO;
 import com.aluracursos.forohub.domain.topico.RegistrarTopicoDTO;
 import com.aluracursos.forohub.domain.topico.Topico;
 import com.aluracursos.forohub.domain.topico.TopicoService;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -30,29 +30,29 @@ public class TopicoController {
         }
 
         @PostMapping
-        public void registraTopico(@RequestBody @Valid RegistrarTopicoDTO registrarTopicoDTO ){
-            Usuario  usuario = usuarioService.buscarUsuario(2L);
-            var fecha = topicoService.generaFechaActual();
-            topicoService.generaObjTopico(registrarTopicoDTO,  usuario, fecha);
-
-
-
-
-
-
+        public ResponseEntity<DevolverTopicoDTO>  registraTopico(@RequestBody @Valid RegistrarTopicoDTO registrarTopicoDTO, UriComponentsBuilder uriComponentsBuilder ){
+            return topicoService.procesar(registrarTopicoDTO);
 
 
 //            System.out.println(usuario.getClave());
-//            if(usuario.getClave().contains("12345678")){
-//                System.out.println("Si");
-//            }
-//           else{
-//               System.out.println("no");
-//           }
+//
 
 
 
         }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DevolverTopicoDTO> retonarDatosTopico(@PathVariable Long id){ // Se modifica declaracion del metodo agregano ResponEntity que es para devolver codigo se operacion validas en este caso 204
+//        Topico medico = medicoRepository.getReferenceById(id);
+//        var datosMedico = new DatosRespuestaMedico(medico.getId(),medico.getNombre(), medico.getEmail(), medico.getTelefono(), medico.getEspecialidad().toString(),
+//                new DatosDireccion(medico.getDireccion().getCalle(),medico.getDireccion().getNumero(),medico.getDireccion().getCiudad(), medico.getDireccion().getComplemento(),
+//                        medico.getDireccion().getDistrito()));
+
+        return topicoService.topicoPorId(id);
+        //return ResponseEntity.ok(datosMedico);
+    }
+
+
 
 
 

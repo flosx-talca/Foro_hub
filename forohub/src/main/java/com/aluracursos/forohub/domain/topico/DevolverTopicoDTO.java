@@ -14,7 +14,11 @@ public record DevolverTopicoDTO(
 
         String mensaje,
 
-        LocalDateTime fechaCreacion
+        String nombreCurso,
+
+        LocalDateTime fechaCreacion,
+
+        Long idUsuario
 
 
 

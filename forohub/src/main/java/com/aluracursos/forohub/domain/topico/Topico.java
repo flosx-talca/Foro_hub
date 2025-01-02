@@ -24,6 +24,7 @@ public class Topico {
     private Long id;
     private String titulo;
     private String mensaje;
+    private String nombreCurso;
     private LocalDateTime fechaCreacion;
 
     @ManyToOne
@@ -35,6 +36,7 @@ public class Topico {
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
         this.fechaCreacion = fecha;
+        this.nombreCurso = datos.nombreCurso();
         this.usuario = usuario;
 
     }
