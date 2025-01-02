@@ -12,3 +12,15 @@ public class WebConfig {
         return UriComponentsBuilder.newInstance();
     }
 }
+
+
+/*
+@Configuration
+public class WebConfig {
+
+    @Bean
+    public UriComponentsBuilder uriComponentsBuilder() {
+        UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+        return builder;
+    }
+}*/
