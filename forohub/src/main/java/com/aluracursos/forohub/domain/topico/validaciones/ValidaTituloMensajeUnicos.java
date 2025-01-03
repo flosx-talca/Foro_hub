@@ -18,7 +18,7 @@ public class ValidaTituloMensajeUnicos  implements ValidadorTopico{
 
         var titulo = datos.titulo().trim().replaceAll("\\s+", " ");
         var mensaje = datos.mensaje().trim().replaceAll("\\s+", " ");
-        var tituloYMensaje = topicoRepository.existsByMensajeAndTitulo(mensaje, titulo);
+        var tituloYMensaje = topicoRepository.existsByMensajeOrTitulo(mensaje, titulo);
         if (tituloYMensaje){
             throw new ValidacionException("El tirulo y mensaje ya existe en la BD");
         }

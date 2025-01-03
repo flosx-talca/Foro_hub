@@ -3,8 +3,12 @@ import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
 import com.aluracursos.forohub.domain.topico.validaciones.ValidadorTopico;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -95,4 +99,16 @@ public class TopicoService {
 
     }
 
+    public Page<DevolverListadoTopicoDTO> retornaListadoTopico(Pageable pagina) {
+
+
+          return topicoRepository.findAll(pagina)
+                .map(topico -> new DevolverListadoTopicoDTO(
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getNombreCurso(),
+                topico.getFechaCreacion(),
+                topico.getUsuario() != null ? topico.getUsuario().getEmail() : null
+        ));
+    }
 }
