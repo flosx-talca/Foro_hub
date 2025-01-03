@@ -5,10 +5,8 @@ import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -19,13 +17,12 @@ import java.util.List;
 @Service
 public class TopicoService {
 
-//    @Autowired
-//    private List<ValidadorTopico> validadores;
+
 
     private final TopicoRepository topicoRepository;
     private final UsuarioRepository usuarioRepository;
     private final UriComponentsBuilder uriComponentsBuilder;
-    private List<ValidadorTopico> validadores;
+    private final List<ValidadorTopico> validadores;
 
 
      public TopicoService(TopicoRepository topicoRepository,
@@ -54,11 +51,6 @@ public class TopicoService {
         System.out.println("ID del Topico: " + topico.getId());
         DevolverTopicoDTO topicoSalida = generaDevolverTopico(topico);
 
-
-//        URI url = uriComponentsBuilder.path("/topico/{id}")
-//               // .buildAndExpand(topico.getId())
-//                .buildAndExpand(String.valueOf(topico.getId()))
-//                .toUri();
         //URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
         URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(Collections.singletonMap("id", topico.getId())).toUri();
          //URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand()
