@@ -3,6 +3,7 @@ import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
 import com.aluracursos.forohub.domain.topico.validaciones.ValidadorTopico;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -36,17 +37,17 @@ public class TopicoService {
     }
 
 
-    public ResponseEntity<DevolverTopicoDTO> procesar(RegistrarTopicoDTO registrarTopicoDTO) {
+    public ResponseEntity<DevolverTopicoDTO> procesar(RegistrarTopicoDTO datos) {
         var fecha = generaFechaActual();
 
-       validadores.forEach(v -> v.validar(registrarTopicoDTO));
+       validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje()));
 
 
-        Usuario  usuario = usuarioRepository.findById(registrarTopicoDTO.idUsuario())
+        Usuario  usuario = usuarioRepository.findById(datos.idUsuario())
                 .orElseThrow(() -> new ValidacionException("Usuario no encontrado"));
 
 
-        Topico topico = generaObjTopico(registrarTopicoDTO,  usuario, fecha);
+        Topico topico = generaObjTopico(datos,  usuario, fecha);
 
         System.out.println("ID del Topico: " + topico.getId());
         DevolverTopicoDTO topicoSalida = generaDevolverTopico(topico);
@@ -82,7 +83,9 @@ public class TopicoService {
 
     public ResponseEntity<DevolverTopicoDTO> topicoPorId(Long id){
 
-        Topico topico = topicoRepository.getReferenceById(id);
+        //Topico topico = topicoRepository.getReferenceById(id);
+        Topico  topico = topicoRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
         var topicoDTO = generaDevolverTopico(topico);
 
 //        DevolverTopicoDTO topicoDTO = new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
@@ -106,10 +109,24 @@ public class TopicoService {
 
     public ResponseEntity<DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){
 
-         Topico topico  = topicoRepository.getReferenceById(id);
-        //validadores.forEach(v -> v.validar(datos));
+         //Topico topico  = topicoRepository.getReferenceById(id);
+
+        Topico  topico = topicoRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje()));
          topico.actualizarDatos(datos, id);
          return ResponseEntity.ok( new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId()));
 
     }
+
+
+
+    public ResponseEntity<DevolverTopicoDTO> eliminarTopico(ActualizarTopicoDTO datos, Long id){
+
+         return null;
+
+    }
+
 }
+
+

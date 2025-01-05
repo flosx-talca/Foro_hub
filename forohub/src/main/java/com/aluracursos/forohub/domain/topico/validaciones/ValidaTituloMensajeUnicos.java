@@ -14,13 +14,13 @@ public class ValidaTituloMensajeUnicos  implements ValidadorTopico{
         this.topicoRepository = topicoRepository;
     }
 
-    public void validar(RegistrarTopicoDTO datos){
+    public void validar(String titulo, String mensaje){
 
-        var titulo = datos.titulo().trim().replaceAll("\\s+", " ");
-        var mensaje = datos.mensaje().trim().replaceAll("\\s+", " ");
-        var tituloYMensaje = topicoRepository.existsByMensajeOrTitulo(mensaje, titulo);
+       // var titulo = titulo.trim().replaceAll("\\s+", " ");
+        //var mensaje = mensaje.trim().replaceAll("\\s+", " ");
+        var tituloYMensaje = topicoRepository.existsByMensajeOrTitulo(mensaje.trim().replaceAll("\\s+", " "), titulo.trim().replaceAll("\\s+", " "));
         if (tituloYMensaje){
-            throw new ValidacionException("El tirulo y mensaje ya existe en la BD");
+            throw new ValidacionException("El titulo y mensaje ya existe en la BD");
         }
 
 
