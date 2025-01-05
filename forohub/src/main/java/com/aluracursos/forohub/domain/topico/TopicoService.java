@@ -103,4 +103,13 @@ public class TopicoService {
                 topico.getUsuario() != null ? topico.getUsuario().getEmail() : null
         ));
     }
+
+    public ResponseEntity<DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){
+
+         Topico topico  = topicoRepository.getReferenceById(id);
+        //validadores.forEach(v -> v.validar(datos));
+         topico.actualizarDatos(datos, id);
+         return ResponseEntity.ok( new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId()));
+
+    }
 }

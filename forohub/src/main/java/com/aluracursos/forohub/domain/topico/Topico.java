@@ -36,8 +36,20 @@ public class Topico {
         this.titulo = datos.titulo().trim().replaceAll("\\s+", " ");
         this.mensaje = datos.mensaje().trim().replaceAll("\\s+", " ");
         this.fechaCreacion = fecha;
-        this.nombreCurso = datos.nombreCurso();
+        this.nombreCurso = datos.nombreCurso().trim().replaceAll("\\s+", " ");;
         this.usuario = usuario;
+
+    }
+
+    public void actualizarDatos(ActualizarTopicoDTO actualizarTopicoDTO, Long id) {
+        if (actualizarTopicoDTO.titulo() != null){
+            this.titulo = actualizarTopicoDTO.titulo().trim().replaceAll("\\s+", " ");;
+        }
+        if (actualizarTopicoDTO.mensaje() != null){
+            this.mensaje = actualizarTopicoDTO.mensaje().trim().replaceAll("\\s+", " ");;
+        }if (actualizarTopicoDTO.nombreCurso() != null){
+            this.nombreCurso = actualizarTopicoDTO.nombreCurso().trim().replaceAll("\\s+", " ");;
+        }
 
     }
 }
