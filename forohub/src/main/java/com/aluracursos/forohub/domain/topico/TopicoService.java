@@ -85,7 +85,7 @@ public class TopicoService {
 
         //Topico topico = topicoRepository.getReferenceById(id);
         Topico  topico = topicoRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException("No encontrado"));
         var topicoDTO = generaDevolverTopico(topico);
 
 //        DevolverTopicoDTO topicoDTO = new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
@@ -112,7 +112,7 @@ public class TopicoService {
          //Topico topico  = topicoRepository.getReferenceById(id);
 
         Topico  topico = topicoRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException("No encontrado"));
         validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje()));
          topico.actualizarDatos(datos, id);
          return ResponseEntity.ok( new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId()));
@@ -121,9 +121,11 @@ public class TopicoService {
 
 
 
-    public ResponseEntity<DevolverTopicoDTO> eliminarTopico(ActualizarTopicoDTO datos, Long id){
-
-         return null;
+    public ResponseEntity eliminarTopico(Long id){
+        Topico  topico = topicoRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("No encontrado"));
+         topicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
 
     }
 

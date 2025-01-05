@@ -5,16 +5,13 @@ import com.aluracursos.forohub.domain.topico.*;
 import com.aluracursos.forohub.domain.usuario.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController
@@ -38,7 +35,7 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DevolverTopicoDTO> retonarDatosTopico(@PathVariable Long id){ // Se modifica declaracion del metodo agregano ResponEntity que es para devolver codigo se operacion validas en este caso 204
+    public ResponseEntity<DevolverTopicoDTO> retonarDatosTopico(@PathVariable @Valid Long id){ // Se modifica declaracion del metodo agregano ResponEntity que es para devolver codigo se operacion validas en este caso 204
 
         return topicoService.topicoPorId(id);
 
@@ -54,12 +51,21 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity actualizarTopico(@PathVariable @Valid @NotNull @Positive @Min(1) Long id, @RequestBody ActualizarTopicoDTO actualizarTopicoDTO){
+    public ResponseEntity actualizarTopico(@PathVariable @Valid Long id, @RequestBody ActualizarTopicoDTO actualizarTopicoDTO){
         System.out.println(actualizarTopicoDTO.nombreCurso());
         System.out.println("ID: "+ id);
         return ResponseEntity.ok(topicoService.actualizarTopico(actualizarTopicoDTO, id));
 
 
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity eliminarTopico(@PathVariable @Valid Long id){ // Se modifica declaracion del metodo agregano ResponEntity que es para devolver codigo se operacion validas en este caso 204
+        //Medico medico = medicoRepository.getReferenceById(id);
+        //medico.desactivarMedico();
+
+        return topicoService.eliminarTopico(id);
     }
 
 
