@@ -1,5 +1,5 @@
 package com.aluracursos.forohub.domain.topico;
-import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
+import com.aluracursos.forohub.infraestructura.errores.ValidacionException;
 import com.aluracursos.forohub.domain.topico.validaciones.ValidadorTopico;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
@@ -26,13 +26,16 @@ public class TopicoService {
     private final List<ValidadorTopico> validadores;
 
 
+
      public TopicoService(TopicoRepository topicoRepository,
                           UsuarioRepository usuarioRepository,
                           UriComponentsBuilder uriComponentsBuilder,
+
                           List<ValidadorTopico> validadores) {
         this.topicoRepository = topicoRepository;
         this.usuarioRepository = usuarioRepository;
         this.uriComponentsBuilder = uriComponentsBuilder;
+
         this.validadores = validadores;
     }
 
@@ -40,7 +43,7 @@ public class TopicoService {
     public ResponseEntity<DevolverTopicoDTO> procesar(RegistrarTopicoDTO datos) {
         var fecha = generaFechaActual();
 
-       validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje()));
+       validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje(), datos.idUsuario()));
 
 
         Usuario  usuario = usuarioRepository.findById(datos.idUsuario())
@@ -73,6 +76,8 @@ public class TopicoService {
     }
 
     public DevolverTopicoDTO generaDevolverTopico(Topico topico){
+
+
         return new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
                 topico.getMensaje(), topico.getNombreCurso(),topico.getFechaCreacion(),topico.getUsuario().getId());
 
@@ -107,15 +112,19 @@ public class TopicoService {
         ));
     }
 
-    public ResponseEntity<DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){
+    public ResponseEntity <DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){
 
          //Topico topico  = topicoRepository.getReferenceById(id);
 
         Topico  topico = topicoRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("No encontrado"));
-        validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje()));
+        validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje(), id));
          topico.actualizarDatos(datos, id);
          return ResponseEntity.ok( new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId()));
+
+
+           //DevolverTopicoDTO dto=      new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId());
+            //return dto;
 
     }
 

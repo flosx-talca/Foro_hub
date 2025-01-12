@@ -1,7 +1,6 @@
-package com.aluracursos.forohub.Infraestructura.errores;
+package com.aluracursos.forohub.infraestructura.errores;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice

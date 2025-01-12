@@ -1,4 +1,4 @@
-package com.aluracursos.forohub.Infraestructura.security;
+package com.aluracursos.forohub.infraestructura.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

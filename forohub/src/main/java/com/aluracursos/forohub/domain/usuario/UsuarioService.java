@@ -1,6 +1,6 @@
 package com.aluracursos.forohub.domain.usuario;
 
-import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
+import com.aluracursos.forohub.infraestructura.errores.ValidacionException;
 import org.springframework.stereotype.Service;
 
 

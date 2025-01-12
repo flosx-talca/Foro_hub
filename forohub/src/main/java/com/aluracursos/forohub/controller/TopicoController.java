@@ -51,10 +51,10 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity actualizarTopico(@PathVariable @Valid Long id, @RequestBody ActualizarTopicoDTO actualizarTopicoDTO){
+    public ResponseEntity actualizarTopico(@PathVariable @Valid Long id, @RequestBody @Valid ActualizarTopicoDTO actualizarTopicoDTO){
         System.out.println(actualizarTopicoDTO.nombreCurso());
         System.out.println("ID: "+ id);
-        return ResponseEntity.ok(topicoService.actualizarTopico(actualizarTopicoDTO, id));
+        return topicoService.actualizarTopico(actualizarTopicoDTO, id);
 
 
     }

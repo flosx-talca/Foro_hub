@@ -1,8 +1,8 @@
 package com.aluracursos.forohub.controller;
 
 
-import com.aluracursos.forohub.Infraestructura.security.DevolverJWTToken;
-import com.aluracursos.forohub.Infraestructura.security.TokenService;
+import com.aluracursos.forohub.infraestructura.security.DevolverJWTToken;
+import com.aluracursos.forohub.infraestructura.security.TokenService;
 import com.aluracursos.forohub.domain.usuario.AutenticarUsuarioDTO;
 
 import com.aluracursos.forohub.domain.usuario.Usuario;

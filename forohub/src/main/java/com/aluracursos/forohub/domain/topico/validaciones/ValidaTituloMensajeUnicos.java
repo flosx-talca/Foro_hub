@@ -1,7 +1,6 @@
 package com.aluracursos.forohub.domain.topico.validaciones;
 
-import com.aluracursos.forohub.Infraestructura.errores.ValidacionException;
-import com.aluracursos.forohub.domain.topico.RegistrarTopicoDTO;
+import com.aluracursos.forohub.infraestructura.errores.ValidacionException;
 import com.aluracursos.forohub.domain.topico.TopicoRepository;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ public class ValidaTituloMensajeUnicos  implements ValidadorTopico{
         this.topicoRepository = topicoRepository;
     }
 
-    public void validar(String titulo, String mensaje){
+    public void validar(String titulo, String mensaje, Long id){
 
        // var titulo = titulo.trim().replaceAll("\\s+", " ");
         //var mensaje = mensaje.trim().replaceAll("\\s+", " ");

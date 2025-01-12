@@ -1,4 +1,4 @@
-package com.aluracursos.forohub.Infraestructura.security;
+package com.aluracursos.forohub.infraestructura.security;
 
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
