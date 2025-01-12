@@ -40,7 +40,7 @@ public class TopicoService {
     }
 
 
-    public ResponseEntity<DevolverTopicoDTO> procesar(RegistrarTopicoDTO datos) {
+    public ResponseEntity<DevolverTopicoDTO> registraTopico(RegistrarTopicoDTO datos) {
         var fecha = generaFechaActual();
 
        validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje(), datos.idUsuario()));
@@ -99,17 +99,17 @@ public class TopicoService {
 
     }
 
-    public Page<DevolverListadoTopicoDTO> retornaListadoTopico(Pageable pagina) {
+    public ResponseEntity<Page<DevolverListadoTopicoDTO>> retornaListadoTopico(Pageable pagina) {
 
 
-          return topicoRepository.findAll(pagina)
+          return ResponseEntity.ok( topicoRepository.findAll(pagina)
                 .map(topico -> new DevolverListadoTopicoDTO(
                 topico.getTitulo(),
                 topico.getMensaje(),
                 topico.getNombreCurso(),
                 topico.getFechaCreacion(),
                 topico.getUsuario() != null ? topico.getUsuario().getEmail() : null
-        ));
+        )));
     }
 
     public ResponseEntity <DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){

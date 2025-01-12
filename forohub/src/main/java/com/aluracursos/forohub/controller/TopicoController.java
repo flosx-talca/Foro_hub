@@ -31,7 +31,7 @@ public class TopicoController {
 
     public ResponseEntity<DevolverTopicoDTO>  registraTopico(@RequestBody @Valid RegistrarTopicoDTO registrarTopicoDTO ) {
 
-        return topicoService.procesar(registrarTopicoDTO);
+        return topicoService.registraTopico(registrarTopicoDTO);
     }
 
     @GetMapping("/{id}")
@@ -43,9 +43,9 @@ public class TopicoController {
 
     //@Pageable default define el tamaño y paginacion
     @GetMapping
-    public ResponseEntity <Page<DevolverListadoTopicoDTO>> listadoMedicos(@PageableDefault(size = 10, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable pagina){
+    public ResponseEntity <Page<DevolverListadoTopicoDTO>> listadoTopicos(@PageableDefault(size = 10, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable pagina){
 
-        return ResponseEntity.ok( topicoService.retornaListadoTopico(pagina));
+        return  topicoService.retornaListadoTopico(pagina);
 
     }
 
