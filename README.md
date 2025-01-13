@@ -35,6 +35,9 @@ La API está completamente documentada utilizando **OpenAPI 3**, accesible a tra
 `http://localhost:8080/swagger-ui/`
 
 
+![DOC](https://github.com/user-attachments/assets/22fef33f-c082-4f96-8fe4-55ba0f2f1ed5)
+
+
 ## Contribuciones
 
 Si deseas contribuir al proyecto, siéntete libre de enviar un **pull request** o abrir **issues**.
