@@ -24,84 +24,76 @@ public class TopicoService {
     private final UriComponentsBuilder uriComponentsBuilder;
     private final List<ValidadorTopico> validadores;
 
-     public TopicoService(TopicoRepository topicoRepository,
-                          UsuarioRepository usuarioRepository,
-                          UriComponentsBuilder uriComponentsBuilder,
-                          List<ValidadorTopico> validadores) {
+    public TopicoService(TopicoRepository topicoRepository,
+                         UsuarioRepository usuarioRepository,
+                         UriComponentsBuilder uriComponentsBuilder,
+                         List<ValidadorTopico> validadores) {
         this.topicoRepository = topicoRepository;
         this.usuarioRepository = usuarioRepository;
         this.uriComponentsBuilder = uriComponentsBuilder;
         this.validadores = validadores;
     }
 
+    // Métodos públicos que retornan ResponseEntity
     public ResponseEntity<DevolverTopicoDTO> registraTopico(RegistrarTopicoDTO datos) {
         var fecha = generaFechaActual();
         validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje(), datos.idUsuario()));
-        Usuario  usuario = usuarioRepository.findById(datos.idUsuario())
+        Usuario usuario = usuarioRepository.findById(datos.idUsuario())
                 .orElseThrow(() -> new ValidacionException("Usuario no encontrado"));
-        Topico topico = generaObjTopico(datos,  usuario, fecha);
+        Topico topico = generaObjTopico(datos, usuario, fecha);
         DevolverTopicoDTO topicoSalida = generaDevolverTopico(topico);
         URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(Collections.singletonMap("id", topico.getId())).toUri();
         return ResponseEntity.created(url).body(topicoSalida);
-
     }
 
-    public LocalDateTime generaFechaActual(){
-        return  LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-    }
-
-    public Topico  generaObjTopico(RegistrarTopicoDTO datos , Usuario usuario, LocalDateTime fecha ){
-         Topico topico = new Topico(datos, usuario, fecha);
-         return topicoRepository.save(topico);
-
-    }
-
-    public DevolverTopicoDTO generaDevolverTopico(Topico topico){
-        return new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
-                topico.getMensaje(), topico.getNombreCurso(),topico.getFechaCreacion(),topico.getUsuario().getId());
-
-    }
-
-    public ResponseEntity<DevolverTopicoDTO> topicoPorId(Long id){
+    public ResponseEntity<DevolverTopicoDTO> topicoPorId(Long id) {
         Topico topico = buscarTopico(id);
         var topicoDTO = generaDevolverTopico(topico);
         return ResponseEntity.ok(topicoDTO);
-
     }
 
     public ResponseEntity<Page<DevolverListadoTopicoDTO>> retornaListadoTopico(Pageable pagina) {
-          return ResponseEntity.ok( topicoRepository.findAll(pagina)
+        return ResponseEntity.ok(topicoRepository.findAll(pagina)
                 .map(topico -> new DevolverListadoTopicoDTO(
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getNombreCurso(),
-                topico.getFechaCreacion(),
-                topico.getUsuario() != null ? topico.getUsuario().getEmail() : null
-        )));
-
+                        topico.getTitulo(),
+                        topico.getMensaje(),
+                        topico.getNombreCurso(),
+                        topico.getFechaCreacion(),
+                        topico.getUsuario() != null ? topico.getUsuario().getEmail() : null
+                )));
     }
 
-    public ResponseEntity <DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id){
+    public ResponseEntity<DevolverTopicoDTO> actualizarTopico(ActualizarTopicoDTO datos, Long id) {
         Topico topico = buscarTopico(id);
         validadores.forEach(v -> v.validar(datos.titulo(), datos.mensaje(), topico.getUsuario().getId()));
-         topico.actualizarDatos(datos, id);
-         return ResponseEntity.ok( new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(),topico.getUsuario().getId()));
-
+        topico.actualizarDatos(datos, id);
+        return ResponseEntity.ok(new DevolverTopicoDTO(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(), topico.getUsuario().getId()));
     }
 
-    public ResponseEntity eliminarTopico(Long id){
-         Topico topico = buscarTopico(id);
-         validadores.forEach(v -> v.validar(null, null, topico.getUsuario().getId()));
-         topicoRepository.deleteById(id);
-         return ResponseEntity.noContent().build();
-
+    public ResponseEntity<Void> eliminarTopico(Long id) {
+        Topico topico = buscarTopico(id);
+        validadores.forEach(v -> v.validar(null, null, topico.getUsuario().getId()));
+        topicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
-    public Topico buscarTopico(Long id){
+    // Métodos auxiliares privados
+    private LocalDateTime generaFechaActual() {
+        return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    private Topico generaObjTopico(RegistrarTopicoDTO datos, Usuario usuario, LocalDateTime fecha) {
+        Topico topico = new Topico(datos, usuario, fecha);
+        return topicoRepository.save(topico);
+    }
+
+    private DevolverTopicoDTO generaDevolverTopico(Topico topico) {
+        return new DevolverTopicoDTO(topico.getId(), topico.getTitulo(),
+                topico.getMensaje(), topico.getNombreCurso(), topico.getFechaCreacion(), topico.getUsuario().getId());
+    }
+
+    private Topico buscarTopico(Long id) {
         return topicoRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(" Topico no encontrado en la base de datos"));
+                .orElseThrow(() -> new EntityNotFoundException("Tópico no encontrado en la base de datos"));
     }
-
 }
-
-
