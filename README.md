@@ -1,3 +1,4 @@
+![forohub](https://github.com/user-attachments/assets/bbb2f1d3-4f6d-4d60-8c04-40ea9c5b0e2a)
 # FORO HUB ALLURA - API REST
 
 Este proyecto es una API REST construida con **Spring Boot**, enfocada en la gestión de tópicos mediante operaciones CRUD. La implementación destaca en la seguridad, autorización y autenticación **stateless** utilizando **JWT**. La API sigue buenas prácticas de desarrollo y está completamente documentada con **OpenAPI 3**.
