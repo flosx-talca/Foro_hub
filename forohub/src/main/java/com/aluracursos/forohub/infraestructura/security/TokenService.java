@@ -8,11 +8,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+
 
 @Service
 public class TokenService {
@@ -59,8 +58,7 @@ public class TokenService {
     }
 
     private Instant generaFechaExpiracion() {
-        // Usa ZoneOffset para calcular la expiración
-        return LocalDateTime.now()
+         return LocalDateTime.now()
                 .plusHours(2)
                 .toInstant(ZoneOffset.of("-03:00"));
     }

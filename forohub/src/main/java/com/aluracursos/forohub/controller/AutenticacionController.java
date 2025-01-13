@@ -1,10 +1,8 @@
 package com.aluracursos.forohub.controller;
 
-
 import com.aluracursos.forohub.infraestructura.security.DevolverJWTToken;
 import com.aluracursos.forohub.infraestructura.security.TokenService;
 import com.aluracursos.forohub.domain.usuario.AutenticarUsuarioDTO;
-
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +36,6 @@ public class AutenticacionController {
         var usuarioAutenticado = authenticationManager.authenticate(authToken);
         var jwtToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
         return ResponseEntity.ok(new DevolverJWTToken(jwtToken));
-
-
-
     }
 
 

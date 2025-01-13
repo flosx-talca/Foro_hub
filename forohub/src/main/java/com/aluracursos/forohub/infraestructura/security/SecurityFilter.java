@@ -15,8 +15,8 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private TokenService tokenService;
-    private UsuarioRepository usuarioRepository;
+    private final TokenService tokenService;
+    private final UsuarioRepository usuarioRepository;
 
     public SecurityFilter(TokenService tokenService, UsuarioRepository usuarioRepository){
         this.tokenService = tokenService;
@@ -29,12 +29,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         var authHeader = request.getHeader("Authorization");
         if(authHeader != null){
             var token  = authHeader.replace("Bearer ", "");
-            //System.out.println(token);
-            var nombreUsuario = tokenService.getSubject(token); //extraeos el username
+            var nombreUsuario = tokenService.getSubject(token);
             if( nombreUsuario !=null){
                 var usuario = usuarioRepository.findByEmail(nombreUsuario);
                 var authentication = new UsernamePasswordAuthenticationToken(usuario, null,
-                        usuario.getAuthorities());//FORzamos el inicio de sesion
+                        usuario.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

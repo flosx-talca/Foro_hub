@@ -14,59 +14,21 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class TratarErrores {
-//
-//
-//    @ExceptionHandler(EntityNotFoundException.class)
-//    public ResponseEntity<String> tratarError404(EntityNotFoundException e){
-//        //return ResponseEntity.notFound().build();
-//        return ResponseEntity.status(404).body(e.getMessage());
-//    }
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity tratarError400(MethodArgumentNotValidException e){
-//        // getFieldErrors es un metodo mas especifico que getAllErrors
-//        var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
-//        return ResponseEntity.badRequest().body(errores);
-//    }
-//
-//
-//    @ExceptionHandler(ValidacionException.class)
-//    public ResponseEntity tratarErrorValidacion(ValidacionException e){
-//        // getFieldErrors es un metodo mas especifico que getAllErrors
-//        //var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
-//        return ResponseEntity.badRequest().body(e.getMessage());
-//    }
-//
-//
-//    // SE crea record para enviar datos de errores de exceotions
-//    private record DatosErrorValidacion(String campo, String error){
-//
-//        public DatosErrorValidacion(FieldError error){
-//            this(error.getField(),error.getDefaultMessage());
-//        }
-//
-//    }
-
-
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> tratarError404(EntityNotFoundException e){
-        //return ResponseEntity.notFound().build();
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity tratarError400(MethodArgumentNotValidException e){
-        // getFieldErrors es un metodo mas especifico que getAllErrors
         var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
         return ResponseEntity.badRequest().body(errores);
     }
 
     @ExceptionHandler(ValidacionException.class)
     public ResponseEntity tratarErrorValidacion(ValidacionException e){
-        // getFieldErrors es un metodo mas especifico que getAllErrors
-        //var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
-        return ResponseEntity.badRequest().body(e.getMessage());
+         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -84,9 +46,7 @@ public class TratarErrores {
         return ResponseEntity.badRequest().body(new DatosErrorValidacion(e.getName(), mensaje));
     }
 
-    // SE crea record para enviar datos de errores de exceotions
     private record DatosErrorValidacion(String campo, String error){
-
         public DatosErrorValidacion(FieldError error){
             this(error.getField(),error.getDefaultMessage());
         }
@@ -94,7 +54,5 @@ public class TratarErrores {
     }
 
     private record ErrorValidacion(String campo, String error) {}
-
-
 
 }
