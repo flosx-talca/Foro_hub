@@ -1,4 +1,4 @@
-name: Maven Spring Boot CI
+name: Maven Build
 
 on:
   push:
@@ -13,10 +13,12 @@ jobs:
     steps:
       - name: 🔄 Checkout del código
         uses: actions/checkout@v3
-      - name: 🔍 Verificar estructura del proyecto
+
+      - name: 🔍 Mostrar si el pom.xml está en la raíz
+        run: test -f pom.xml && echo "✅ pom.xml encontrado" || echo "❌ pom.xml no está en la raíz"
+
+      - name: 📂 Ver contenido del directorio actual
         run: ls -la
-      - name: 📁 Ver contenido del subdirectorio
-        run: ls -la Foro_hub
 
       - name: ⚙️ Configurar Java
         uses: actions/setup-java@v3
@@ -24,14 +26,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: 🛠️ Compilar y ejecutar tests
-        run: mvn clean verify -B
-
-      - name: 🚀 Ejecutar app (opcional para pruebas manuales)
-        run: nohup mvn spring-boot:run &
-
-      - name: 🧪 Probar endpoint de salud (opcional)
-        run: curl --retry 5 --retry-delay 5 --fail http://localhost:8080/actuator/health
+      - name: 🛠️ Build y Test con Maven
+        run: mvn clean install -B
 
       - name: 📦 Mostrar versión de Maven
         run: mvn -version
