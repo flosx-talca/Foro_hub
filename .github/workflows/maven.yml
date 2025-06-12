@@ -1,4 +1,4 @@
-name: Maven Build and Test
+name: Maven Build and Test with H2
 
 on:
   push:
@@ -14,20 +14,14 @@ jobs:
       - name: 🔄 Checkout del código
         uses: actions/checkout@v3
 
-      - name: 📁 Listar archivos raíz
-        run: ls -la
-
-      - name: 📁 Listar archivos en forohub
-        run: ls -la ./forohub
-
       - name: ⚙️ Configurar Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: 🛠️ Compilar y testear con Maven
-        run: mvn clean verify -B
+      - name: 🛠️ Build y Test con Maven usando perfil CI
+        run: mvn clean verify -B -Dspring.profiles.active=ci
         working-directory: ./forohub
 
       - name: 📦 Mostrar versión de Maven
