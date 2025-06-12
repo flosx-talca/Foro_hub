@@ -14,6 +14,12 @@ jobs:
       - name: 🔄 Checkout del código
         uses: actions/checkout@v3
 
+      - name: 📁 Listar archivos raíz
+        run: ls -la
+
+      - name: 📁 Listar archivos Foro_hub
+        run: ls -la ./Foro_hub
+
       - name: ⚙️ Configurar Java
         uses: actions/setup-java@v3
         with:
@@ -22,6 +28,7 @@ jobs:
 
       - name: 🛠️ Compilar y ejecutar tests con Maven
         run: mvn clean verify -B
+        working-directory: ./Foro_hub
 
       - name: 📦 Mostrar versión de Maven
         run: mvn -version
