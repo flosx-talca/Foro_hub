@@ -1,4 +1,4 @@
-name: Maven Build
+name: Maven Build and Run Spring Boot
 
 on:
   push:
@@ -7,18 +7,12 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
       - name: 🔄 Checkout del código
         uses: actions/checkout@v3
-
-      - name: 🔍 Mostrar si el pom.xml está en la raíz
-        run: test -f pom.xml && echo "✅ pom.xml encontrado" || echo "❌ pom.xml no está en la raíz"
-
-      - name: 📂 Ver contenido del directorio actual
-        run: ls -la
 
       - name: ⚙️ Configurar Java
         uses: actions/setup-java@v3
@@ -28,6 +22,13 @@ jobs:
 
       - name: 🛠️ Build y Test con Maven
         run: mvn clean install -B
+
+      - name: 🚀 Ejecutar Spring Boot por 15 segundos
+        run: |
+          nohup mvn spring-boot:run &
+          sleep 15
+          echo "Comprobando proceso Java activo:"
+          ps aux | grep java
 
       - name: 📦 Mostrar versión de Maven
         run: mvn -version
