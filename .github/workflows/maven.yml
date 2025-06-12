@@ -2,9 +2,9 @@ name: Maven Spring Boot CI
 
 on:
   push:
-    branches: [master, dev]
+    branches: [main, dev]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build:
