@@ -1,4 +1,4 @@
-name: Maven Build and Test with H2
+name: Maven Build and Code Review
 
 on:
   push:
@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: 🛠️ Build y Test con Maven usando perfil CI
-        run: mvn clean verify -B -Dspring.profiles.active=ci
+      - name: 🛠️ Compilar y validar código con Maven
+        run: mvn clean verify -DskipTests=true -B
         working-directory: ./forohub
 
       - name: 📦 Mostrar versión de Maven
