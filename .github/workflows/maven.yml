@@ -1,4 +1,4 @@
-name: Maven Build and Run Spring Boot
+name: Maven Build and Test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build-and-run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,15 +20,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: 🛠️ Build y Test con Maven
-        run: mvn clean install -B
-
-      - name: 🚀 Ejecutar Spring Boot por 15 segundos
-        run: |
-          nohup mvn spring-boot:run &
-          sleep 15
-          echo "Comprobando proceso Java activo:"
-          ps aux | grep java
+      - name: 🛠️ Compilar y ejecutar tests con Maven
+        run: mvn clean verify -B
 
       - name: 📦 Mostrar versión de Maven
         run: mvn -version
