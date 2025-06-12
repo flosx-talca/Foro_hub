@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ForohubApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ForohubApplication.class, args);
+		SpringApplication.run(ForohubApplication.class, args );
 
 	}
 }
