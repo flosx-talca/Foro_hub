@@ -17,8 +17,8 @@ jobs:
       - name: 📁 Listar archivos raíz
         run: ls -la
 
-      - name: 📁 Listar archivos Foro_hub
-        run: ls -la ./Foro_hub
+      - name: 📁 Listar archivos en forohub
+        run: ls -la ./forohub
 
       - name: ⚙️ Configurar Java
         uses: actions/setup-java@v3
@@ -26,9 +26,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: 🛠️ Compilar y ejecutar tests con Maven
+      - name: 🛠️ Compilar y testear con Maven
         run: mvn clean verify -B
-        working-directory: ./Foro_hub
+        working-directory: ./forohub
 
       - name: 📦 Mostrar versión de Maven
         run: mvn -version
